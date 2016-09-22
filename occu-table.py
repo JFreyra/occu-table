@@ -2,9 +2,9 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
-links = ["\"http://127.0.0.1:5000/jobs\"",
-         "\"http://127.0.0.1:5000/tables\"",
-         "\"http://127.0.0.1:5000/occupations\""]
+links = ["jobs",
+         "tables",
+         "occupations"]
 
 linksT = ["Jobs!",
           "Tables!",
@@ -15,7 +15,21 @@ def home():
     return render_template("basic.html",
                            title = "Homepage",
                            heading = "Links: jobs, tables, occupation table!",
+                           links = True,
                            varL = links)
+
+@app.route("/jobs")
+def jobs():
+    return "hello"
+    #return render_template
+
+@app.route("/tables")
+def tables():
+    return "hello"
+
+@app.route("/occupations")
+def occupations():
+    return "hello"
 
 if(__name__ == "__main__"):
     app.debug = True
