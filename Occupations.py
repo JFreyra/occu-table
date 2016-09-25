@@ -1,13 +1,29 @@
 #Julius Freyra + Jiaqi Gao
 import csv, random
 
-def whichOcc():
-
+def occDict():
     with open("occupations.csv", mode="r") as infile:
         reader = csv.reader(infile)
         mydict = dict((rows[0],rows[1]) for rows in reader)
-
+    for key in mydict:
+        try:
+            float(mydict[key])
+        except ValueError:
+            mydict.pop(key, mydict[key])
+            break
     return mydict
+
+occDict = occDict()
+
+def randOcc():
+    selectjob = random.random()*float(occDict["Total"])
+    print(selectjob)
+    counter = 0.0;
+    for key in occDict:
+        counter+=float(occDict[key])
+        if(selectjob<=counter):
+            return(key)
+
     
     #data = open("occupations.csv").read()
     #data = data.replace(', ', '+')
@@ -31,4 +47,4 @@ def whichOcc():
     #    if(selectjob<=counter):
     #        return(occ[x])
 
-print whichOcc()
+print(randOcc())

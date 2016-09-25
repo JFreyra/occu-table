@@ -11,23 +11,24 @@ def occDict():
     with open("occupations.csv", mode="r") as infile:
         reader = csv.reader(infile)
         mydict = dict((rows[0],rows[1]) for rows in reader)
-    for(key in mydict):
+    for key in mydict:
         try:
-            float(mydict[k])
+            float(mydict[key])
         except ValueError:
-            popitem(key, mydict[k])
+            mydict.pop(key, mydict[key])
+            break
     return mydict
 
-def randOcc():
-    selectjob = float(random.randint(1,total))
-    counter = 0.0;
-    for x in range(0, len(occ)):
-        counter+=float(per[x])*10
-        if(selectjob<=counter):
-            return(occ[x])
-
 occDict = occDict()
-            
+
+def randOcc():
+    selectjob = random.random()*float(occDict["Total"])
+    counter = 0.0;
+    for key in occDict:
+        counter+=float(occDict[key])
+        if(selectjob<=counter):
+            return(key)
+
 @app.route("/")
 def home():
     links = ["jobs",
@@ -53,7 +54,8 @@ def occupations():
     return render_template("table.html",
                            title = "Occupation Table",
                            heading = "Occupations; Percentage of Workforce",
-                           varD = occDict)
+                           varD = occDict,
+                           randOcc = randOcc())
 
 if(__name__ == "__main__"):
     app.debug = True
